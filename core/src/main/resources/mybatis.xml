@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+  <typeAliases>
+    <typeAlias alias="UUID" type="java.util.UUID"/>
+    <typeAlias alias="UUIDTypeHandler" type="core.db.mybatis.typehandlers.UUIDTypeHandler"/>
+    <package name="core.db.entities"/>
+  </typeAliases>
+
+  <typeHandlers>
+    <package name="core.db.mybatis.typehandlers"/>
+  </typeHandlers>
+
+  <mappers>
+  </mappers>
+</configuration>
