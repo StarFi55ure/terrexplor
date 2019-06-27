@@ -1,0 +1,1 @@
+raster2pgsql -d -F -n filename -I -M -t 32x32 *.tif public.srtmglobal

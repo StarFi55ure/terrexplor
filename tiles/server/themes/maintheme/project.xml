@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map[]>
+<Map srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over" background-color="#93c4ff">
+
+<Parameters>
+  <Parameter name="bounds">17.8665,-34.5631,19.726,-33.6261</Parameter>
+  <Parameter name="center">18.4969,-33.9923,10</Parameter>
+  <Parameter name="format">png8</Parameter>
+  <Parameter name="minzoom">0</Parameter>
+  <Parameter name="maxzoom">18</Parameter>
+  <Parameter name="scale">1</Parameter>
+  <Parameter name="metatile">4</Parameter>
+  <Parameter name="name"><![CDATA[GISPlayarea]]></Parameter>
+</Parameters>
+
+
+<Style name="land-low" filter-mode="first">
+  <Rule>
+    <MinScaleDenominator>1500000</MinScaleDenominator>
+    <PolygonSymbolizer fill-opacity="1" fill="#f6f4f4" />
+  </Rule>
+</Style>
+<Layer name="land-low"
+  status="off"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>land-low</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(select * from baseshapes_simplified_land_polygons) as paths]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-20037508.3427892,-20037508.368847,20037508.3427892,18461504.100102]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[land-low]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="countries" filter-mode="first">
+  <Rule>
+    <MinScaleDenominator>1500000</MinScaleDenominator>
+    <LineSymbolizer stroke="#c8bcbc" stroke-width="2" />
+    <PolygonSymbolizer fill-opacity="1" fill="#f6f4f4" />
+  </Rule>
+</Style>
+<Layer name="countries"
+  srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>countries</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(select * from baseshapes_ne_10m_admin_0_countries) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-180,-90,180,83.6341006530001]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[countries]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="land-high-tint-band-tint-band" filter-mode="first" image-filters="agg-stack-blur(10,10)">
+  <Rule>
+    <MaxScaleDenominator>750000</MaxScaleDenominator>
+    <LineSymbolizer stroke="#b0b0b0" stroke-width="0" />
+    <PolygonSymbolizer fill="#5d86a1" />
+  </Rule>
+</Style>
+<Layer name="land-high-tint-band"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>land-high-tint-band-tint-band</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(select * from baseshapes_land_polygons_split) as paths]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-20037508.3427892,-20037508.3427892,20037508.3427892,18461504.100102]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[land-high-tint-band]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="land-high" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>1500000</MaxScaleDenominator>
+    <PolygonSymbolizer fill-opacity="1" fill="#f6f4f4" />
+  </Rule>
+</Style>
+<Layer name="land-high"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>land-high</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(select * from baseshapes_land_polygons_split) as paths]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-20037508.3427892,-20037508.3427892,20037508.3427892,18461504.100102]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[land-high]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="landuse_natural" filter-mode="first">
+  <Rule>
+    <Filter>([type] = 'nature_reserve')</Filter>
+    <PolygonSymbolizer fill="#b8d0ae" fill-opacity="0.5" />
+  </Rule>
+  <Rule>
+    <Filter>([type] = 'conservation')</Filter>
+    <PolygonSymbolizer fill="#b8d0ae" fill-opacity="0.5" />
+  </Rule>
+  <Rule>
+    <Filter>([type] = 'forest')</Filter>
+    <PolygonSymbolizer fill="#b8d0ae" fill-opacity="0.5" />
+  </Rule>
+  <Rule>
+    <Filter>([type] = 'recreation_ground')</Filter>
+    <PolygonSymbolizer fill="#b8d0ae" fill-opacity="0.5" />
+  </Rule>
+  <Rule>
+    <Filter>([boundary] = 'national_park')</Filter>
+    <PolygonSymbolizer fill="#b8d0ae" fill-opacity="0.5" />
+  </Rule>
+</Style>
+<Layer name="landuse_natural"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>landuse_natural</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[( SELECT way, way_area AS area, COALESCE(landuse, leisure, "natural", amenity, tourism) AS type, boundary
+  FROM planet_osm_polygon
+  WHERE way_area > 100
+  ORDER BY way_area DESC
+) AS data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[1797144.03,-4195637.59,3709164.81,-2484399.38]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[landuse_gen0]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Layer name="roads_high"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[roads_high]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Layer name="roads_high_label"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+       <Parameter name="id"><![CDATA[roads_high_label]]></Parameter>
+       <Parameter name="project"><![CDATA[GISPlayarea]]></Parameter>
+       <Parameter name="srs"><![CDATA[+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Layer name="roads_med"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+        AND highway in ('motorway','trunk','primary','secondary')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Layer name="roads_med_label"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="roads_low-motorway/road" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>500000000</MaxScaleDenominator>
+    <Filter>([type] = 'motorway')</Filter>
+    <LineSymbolizer stroke-width="2" stroke="#ffea78" />
+  </Rule>
+</Style>
+<Style name="roads_low-motorway/case" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>500000000</MaxScaleDenominator>
+    <Filter>([type] = 'motorway')</Filter>
+    <LineSymbolizer stroke-width="3" stroke="#debb00" />
+  </Rule>
+</Style>
+<Style name="roads_low-trunk/road" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>750000</MaxScaleDenominator>
+    <Filter>([type] = 'trunk')</Filter>
+    <LineSymbolizer stroke-width="3.5" stroke="#feffc6" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>12500000</MaxScaleDenominator>
+    <MinScaleDenominator>750000</MinScaleDenominator>
+    <Filter>([type] = 'trunk')</Filter>
+    <LineSymbolizer stroke-width="1" stroke="#f4f900" />
+  </Rule>
+</Style>
+<Style name="roads_low-trunk/case" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>750000</MaxScaleDenominator>
+    <Filter>([type] = 'trunk')</Filter>
+    <LineSymbolizer stroke-width="5" stroke="#c2c600" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>12500000</MaxScaleDenominator>
+    <MinScaleDenominator>750000</MinScaleDenominator>
+    <Filter>([type] = 'trunk')</Filter>
+    <LineSymbolizer stroke-width="1" stroke="#c2c600" />
+  </Rule>
+</Style>
+<Style name="roads_low-primary/road" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>750000</MaxScaleDenominator>
+    <Filter>([type] = 'primary')</Filter>
+    <LineSymbolizer stroke-width="2" stroke="#fdff93" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>12500000</MaxScaleDenominator>
+    <MinScaleDenominator>750000</MinScaleDenominator>
+    <Filter>([type] = 'primary')</Filter>
+    <LineSymbolizer stroke-width="1" stroke="#f4f900" />
+  </Rule>
+</Style>
+<Style name="roads_low-primary/case" filter-mode="first">
+  <Rule>
+    <MaxScaleDenominator>750000</MaxScaleDenominator>
+    <Filter>([type] = 'primary')</Filter>
+    <LineSymbolizer stroke-width="3" stroke="#c2c600" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>12500000</MaxScaleDenominator>
+    <MinScaleDenominator>750000</MinScaleDenominator>
+    <Filter>([type] = 'primary')</Filter>
+    <LineSymbolizer stroke-width="1.5" stroke="#dbdf00" />
+  </Rule>
+</Style>
+<Layer name="roads_low"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>roads_low-primary/case</StyleName>
+    <StyleName>roads_low-primary/road</StyleName>
+    <StyleName>roads_low-trunk/case</StyleName>
+    <StyleName>roads_low-trunk/road</StyleName>
+    <StyleName>roads_low-motorway/case</StyleName>
+    <StyleName>roads_low-motorway/road</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+        AND highway in ('motorway','trunk','primary')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+    </Datasource>
+  </Layer>
+
+<Style name="roads_low_label" filter-mode="first">
+  <Rule>
+    <Filter>([type] = 'trunk')</Filter>
+    <TextSymbolizer face-name="DejaVu Sans Book" fill="#f6ff49" minimum-distance="100" halo-fill="#63944f" halo-radius="3" size="10" avoid-edges="true" ><![CDATA[[ref]]]></TextSymbolizer>
+  </Rule>
+  <Rule>
+    <Filter>([type] = 'motorway')</Filter>
+    <TextSymbolizer face-name="DejaVu Sans Book" fill="#f6ff49" minimum-distance="100" halo-fill="#63944f" halo-radius="3" size="10" avoid-edges="true" ><![CDATA[[ref]]]></TextSymbolizer>
+  </Rule>
+</Style>
+<Layer name="roads_low_label"
+  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
+    <StyleName>roads_low_label</StyleName>
+    <Datasource>
+       <Parameter name="type"><![CDATA[postgis]]></Parameter>
+       <Parameter name="table"><![CDATA[(
+SELECT way, 
+    highway as type,
+    name,
+    ref
+
+FROM planet_osm_line
+    WHERE highway IS NOT NULL
+        --AND (tunnel IS NULL OR tunnel = 'no')
+        --AND (bridge IS NULL OR bridge = 'no')
+        AND highway in ('motorway','trunk','primary','secondary')
+) as data]]></Parameter>
+       <Parameter name="key_field"><![CDATA[]]></Parameter>
+       <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
+       <Parameter name="extent_cache"><![CDATA[auto]]></Parameter>
+       <Parameter name="extent"><![CDATA[-1608466.16,-4602350.02,4570176.14,-884228.73]]></Parameter>
+       <Parameter name="dbname"><![CDATA[gis]]></Parameter>
+       <Parameter name="host"><![CDATA[localhost]]></Parameter>
+       <Parameter name="user"><![CDATA[gis]]></Parameter>
+       <Parameter name="password"><![CDATA[gis]]></Parameter>
+    </Datasource>
+  </Layer>
+
+</Map>
