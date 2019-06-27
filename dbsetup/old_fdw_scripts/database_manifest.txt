@@ -1,0 +1,9 @@
+Database                        Purpose
+========                        =======
+
+terrexplor                      Main database, no osm data
+
+osm_derived                     Land and country boundaries and other derived data
+
+osm_partition_southafrica       South Africa data
+osm_partition_croatia           Croatia country data

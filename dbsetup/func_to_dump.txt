@@ -1,0 +1,4 @@
+planet_osm_line_osm2pgsql_valid
+planet_osm_point_osm2pgsql_valid
+planet_osm_polygon_osm2pgsql_valid
+planet_osm_roads_osm2pgsql_valid

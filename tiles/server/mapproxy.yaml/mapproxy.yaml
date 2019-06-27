@@ -1,0 +1,49 @@
+# -------------------------------
+# MapProxy example configuration.
+# -------------------------------
+#
+# This is a minimal MapProxy configuration.
+# See full_example.yaml and the documentation for more options.
+#
+
+# Starts the following services:
+# Demo:
+#     http://localhost:8080/demo
+# WMS:
+#     capabilities: http://localhost:8080/service?REQUEST=GetCapabilities
+# WMTS:
+#     capabilities: http://localhost:8080/wmts/1.0.0/WMTSCapabilities.xml
+#     first tile: http://localhost:8080/wmts/osm/webmercator/0/0/0.png
+# Tile service (compatible with OSM/etc.)
+#     first tile: http://localhost:8080/tiles/osm/webmercator/0/0/0.png
+# TMS:
+#     note: TMS is not compatible with OSM/Google Maps/etc.
+#     fist tile: http://localhost:8080/tms/1.0.0/osm/webmercator/0/0/0.png
+# KML:
+#     initial doc: http://localhost:8080/kml/osm/webmercator
+
+services:
+  demo:
+  tms:
+    use_grid_names: true
+    # origin for /tiles service
+    origin: 'nw'
+layers:
+  - name: maintheme
+    title: Maintheme custom map
+    sources: [maintheme_cache]
+
+caches:
+  maintheme_cache:
+    grids: [geodetic]
+    sources: [maintheme]
+sources:
+  maintheme:
+    type: mapnik
+    mapfile: terrexplor-main/project.xml
+grids:
+    geodetic:
+        base: GLOBAL_WEBMERCATOR
+        tile_size: [256, 256]
+
+globals:

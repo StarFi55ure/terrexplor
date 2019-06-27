@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# commands
+
+POSTPSQL="sudo -u postgres psql"

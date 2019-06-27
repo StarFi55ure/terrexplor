@@ -1,1 +1,10 @@
 target
+src/main/resources/static/js/app.js
+src/main/resources/static/js/vendor.js
+src/main/resources/static/css/app.css
+src/main/resources/static/css/vendor.css
+packaging-build
+node_modules
+web/styles/**/*.d.ts
+*.swp
+src/main/resources/static/build
