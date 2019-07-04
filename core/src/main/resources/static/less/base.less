@@ -1,0 +1,63 @@
+
+html, body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#app-nav-bar {
+    background-color: black;
+    color: white;
+
+    height: @navbar-height;
+}
+
+#page-container {
+    position: relative;
+    height: ~"calc(100% - @{navbar-height})";
+}
+
+.action-sidebar {
+    float: left;
+    width: @sidebar-width;
+    background-color: #abb6be;
+    height: 100%;
+}
+
+.main-content {
+    float: left;
+    width: ~'calc(100% - @{sidebar-width})';
+    height: 100%;
+}
+
+#page-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: none;
+
+    .page-overlay-shadow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.5;
+        background-color: #000;
+    }
+
+    .page-overlay-window {
+        position: absolute;
+        color: black;
+        background-color: white;
+        z-index: 2;
+        opacity: 1.0;
+
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+    }
+}
