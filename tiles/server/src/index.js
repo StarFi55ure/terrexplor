@@ -4,6 +4,8 @@ var cluster = require('cluster');
 var numCPU = require('os').cpus().length;
 var maxCPU = 4;
 
+var fs = require('fs');
+
 var tilestrata = require('tilestrata');
 var disk = require('tilestrata-disk');
 var mapnik = require('tilestrata-mapnik');
@@ -11,7 +13,9 @@ var nodeMapnik = require('mapnik');
 var blend = require('tilestrata-blend');
 var express = require('express');
 
-nodeMapnik.Logger.setSeverity(nodeMapnik.Logger.NONE);
+var Config = require('./config').Config;
+
+//nodeMapnik.Logger.setSeverity(nodeMapnik.Logger.NONE);
 
 var buildMapnikProjectFiles = function () {
     //console.log('TODO: checking if need to rebuild project.xml');
@@ -19,51 +23,65 @@ var buildMapnikProjectFiles = function () {
 
 buildMapnikProjectFiles();
 
+function processMapnikXML (mapnikXML, config) {
+    
+    var processedXML = mapnikXML;
+    
+    return processedXML;
+};
+
 function setupTileServer () {
     var strata = tilestrata();
-    strata.layer('combined')
+    // strata.layer('combined')
+    //     .route('tile.png')
+    //     .use(disk.cache({
+    //         dir: './cache/maintheme-osmbright'
+    //     }))
+    //     .use(mapnik({
+    //         pathname: 'themes/maintheme-osmbright/project.xml',
+    //         tileSize: 256
+    //     }));
+    //
+    // strata.layer('infrastructure-hillshade')
+    //     .route('tile.png')
+    //     .use(disk.cache({
+    //         dir: './cache/infrastructure-hillshade'
+    //     }))
+    //     .use(blend([
+    //         ['infrastructure', 'tile.png'],
+    //         ['hillshade', 'tile.png', {
+    //             opacity: 0.5
+    //         }]
+    //     ], {
+    //         matte: 'ffffff'
+    //     }));
+
+    var projectXML = fs.readFileSync('themes/terrexplor-main/project.xml', {encoding: 'utf-8'});
+    
+    var config = new Config();
+    var projectXML = processMapnikXML(projectXML, config);
+    
+    strata.layer('terrexplor-main')
         .route('tile.png')
         .use(disk.cache({
-            dir: './cache/maintheme-osmbright'
+            dir: './cache/terrexplor-main'
         }))
         .use(mapnik({
-            pathname: 'themes/maintheme-osmbright/project.xml',
+            pathname: 'themes/terrexplor-main/project.xml',
+            xml: projectXML,
+            scale: 1,
             tileSize: 256
         }));
 
-    strata.layer('infrastructure-hillshade')
-        .route('tile.png')
-        .use(disk.cache({
-            dir: './cache/infrastructure-hillshade'
-        }))
-        .use(blend([
-            ['infrastructure', 'tile.png'],
-            ['hillshade', 'tile.png', {
-                opacity: 0.5
-            }]
-        ], {
-            matte: 'ffffff'
-        }));
-
-    strata.layer('infrastructure')
-        .route('tile.png')
-        .use(disk.cache({
-            dir: './cache/infrastructure'
-        }))
-        .use(mapnik({
-            pathname: 'themes/infrastructure/project.xml',
-            tileSize: 256
-        }));
-
-    strata.layer('hillshade')
-        .route('tile.png')
-        .use(disk.cache({
-            dir: './cache/hillshade-built'
-        }))
-        .use(mapnik({
-            pathname: 'themes/hillshade-built-layer/project.xml',
-            tileSize: 256
-        }));
+    // strata.layer('hillshade')
+    //     .route('tile.png')
+    //     .use(disk.cache({
+    //         dir: './cache/hillshade-built'
+    //     }))
+    //     .use(mapnik({
+    //         pathname: 'themes/hillshade-built-layer/project.xml',
+    //         tileSize: 256
+    //     }));
 
     var app = express();
 
