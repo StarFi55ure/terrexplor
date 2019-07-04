@@ -11,7 +11,6 @@
 </#macro>
 
 <#macro display_page>
-
     <!DOCTYPE html>
     <html>
         <head>
