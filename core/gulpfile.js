@@ -27,7 +27,8 @@ gulp.task('css-vendor', function() {
     "use strict";
 
     var sources = [
-        'node_modules/bootstrap/dist/css/bootstrap.min.css'
+        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        'src/main/resources/static/vendors/ol/ol.css'
     ];
 
     return gulp.src(sources)
@@ -45,7 +46,8 @@ gulp.task('js-vendor', function () {
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'node_modules/vue/dist/vue.min.js',
-        'node_modules/lodash/lodash.min.js'
+        'node_modules/lodash/lodash.min.js',
+        'src/main/resources/static/vendors/ol/ol.js'
     ];
 
     return gulp.src(sources)
