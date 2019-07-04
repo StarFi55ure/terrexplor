@@ -10,6 +10,10 @@
 
 </#macro>
 
+<#macro pagecss>
+
+</#macro>
+
 <#macro display_page>
     <!DOCTYPE html>
     <html>
@@ -20,6 +24,7 @@
 
             <link rel="stylesheet" href="/css/vendor.css">
             <link rel="stylesheet" href="/css/app.css">
+            <@pagecss/>
         </head>
         <body>
             <div id="app-nav-bar">
