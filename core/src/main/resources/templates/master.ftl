@@ -28,7 +28,6 @@
         </head>
         <body>
             <div id="app-nav-bar">
-                Navbar
             </div>
             <div id="page-container">
                 <@page_content/>
