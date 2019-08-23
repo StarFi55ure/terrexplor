@@ -1,5 +1,5 @@
-terrexplor-core (0.0.1-1) unstable; urgency=medium
+terrexplor-core (0.0.1-1) bionic; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
 
- -- Julian Kennedy <julian@unknown>  Fri, 23 Aug 2019 17:02:37 +0200
+ -- Julian Kennedy <juliankenn@gmail.com>  Fri, 23 Aug 2019 17:02:37 +0200

@@ -1,15 +1,15 @@
 Source: terrexplor-core
-Section: unknown
+Section: devel
 Priority: optional
-Maintainer: Julian Kennedy <julian@unknown>
+Maintainer: Julian Kennedy <juliankenn@gmail.com>
 Build-Depends: debhelper (>= 10)
 Standards-Version: 4.1.2
-Homepage: <insert the upstream URL, if relevant>
+Homepage: http://www.terrexplor.io
 #Vcs-Git: https://anonscm.debian.org/git/collab-maint/terrexplor-core.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/terrexplor-core.git
 
 Package: terrexplor-core
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: TerreXplor Core application
+ TerreXplor Core Application
