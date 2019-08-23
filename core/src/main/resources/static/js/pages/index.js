@@ -27,6 +27,8 @@ $(document).ready(function () {
 
                 //var OSMTileServer = tileUrl + '/' + tileTheme + '/{z}/{x}/{y}/tile.png'
                 var OSMTileServer = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+                //var OSMTileServer =
+                // "http://localhost:6789/tiles/terrexplor-main/{z}/{x}/{y}/tile.png";
 
                 // setup base layer
                 var tileLayer = new ol.layer.Tile({

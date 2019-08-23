@@ -5,9 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class SandboxController {
+public class HomeController {
     
-    @RequestMapping("/sandbox")
+    @RequestMapping("/")
     public String getIndex(Model model) {
         return "pages/index";
     }
