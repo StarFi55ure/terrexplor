@@ -16,6 +16,10 @@
       <source>${project.build.directory}/${project.artifactId}-${project.version}.jar</source>
       <outputDirectory>/</outputDirectory>
     </file>
+    <file>
+      <source>${project.basedir}/packaging/supervisord/terrexplor-core.conf</source>
+      <outputDirectory>/supervisord</outputDirectory>
+    </file>
   </files>
   <fileSets>
     <fileSet>
