@@ -140,11 +140,29 @@
 
   <build>
     <plugins>
-      <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
       </plugin>
-      <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <finalName>terrexplor-core-${project.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/zip.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>install</phase>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -161,6 +179,16 @@
               <arguments>
                 <argument>default</argument>
               </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>run-debian-builder</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>build-debian-package.sh</executable>
             </configuration>
           </execution>
         </executions>
@@ -187,31 +215,32 @@
           <mainClass>core.MainApp</mainClass>
           <layout>ZIP</layout>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <classifier>exec</classifier>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <!-- Skip the default deploy:deploy as we are building a deb -->
+          <skip>true</skip>
+        </configuration>
       </plugin>
-      <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <finalName>terrexplor-core-${project.version}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>src/main/assembly/zip.xml</descriptor>
-          </descriptors>
-        </configuration>
       </plugin>
     </plugins>
   </build>

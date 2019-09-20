@@ -1,2 +1,2 @@
-core-0.0.1.jar /opt/terrexplor-core
+core-0.0.1-exec.jar /opt/terrexplor-core
 supervisord/terrexplor-core.conf /etc/supervisor/conf.d
