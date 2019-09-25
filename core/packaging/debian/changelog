@@ -1,3 +1,15 @@
+terrexplor-core (0.0.1-3) bionic; urgency=medium
+
+  * changed name jar file 
+
+ -- Julian Kennedy <juliankenn@gmail.com>  Wed, 25 Sep 2019 16:22:35 +0200
+
+terrexplor-core (0.0.1-2) bionic; urgency=medium
+
+  * Updated db password  
+
+ -- Julian Kennedy <juliankenn@gmail.com>  Wed, 25 Sep 2019 15:27:16 +0200
+
 terrexplor-core (0.0.1-1) bionic; urgency=medium
 
   * Initial release
