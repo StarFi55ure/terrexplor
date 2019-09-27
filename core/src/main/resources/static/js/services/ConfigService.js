@@ -9,8 +9,8 @@ class ConfigService {
                 url: 'http://tiles-{a-c}.hyperion.dyndns.org/tiles',
                 theme: 'infrastructure-hillshade',
                 defaultLonLat: [18.417, -33.928],
-                defaultZoom: 11,
-                defaultMaxZoom: 16
+                defaultZoom: 4,
+                defaultMaxZoom: 18
             }
         }
 

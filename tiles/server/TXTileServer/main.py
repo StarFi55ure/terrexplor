@@ -34,12 +34,13 @@ class CORSMiddleware(object):
             headers = Headers(headers)
 
             # for origin in self.origins:
-            headers.add("Access-Control-Allow-Origin", "*")
+            print('adding header')
+            headers.set("Access-Control-Allow-Origin", "*")
             # headers.add("Access-Control-Allow-Headers", "Origin, ...")
             # headers.add("Access-Control-Allow-Credentials", "true")
             headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
             # headers.add("Access-Control-Expose-Headers", "...")
-            return start_response(status, headers.to_list(), exc_info)
+            return start_response(status, [h for h in headers], exc_info)
 
         if environ.get("REQUEST_METHOD") == "OPTIONS":
             add_cors_headers("200 Ok", [("Content-Type", "text/plain")])
@@ -97,23 +98,21 @@ def main():
     # setup CORS to allow cross domain requests
     app = CORSMiddleware(app, [
         'http://localhost:8080',
-        'http://localhost:7000',
-        'http://tiles.urbanplanet.local',
-        'http://urbanplanet.local',
-        'http://urbanplanet.dyndns.org'
+        'http://localhost:7000'
     ])
 
     gunicorn_options = get_gunicorn_config()
 
+    print(app)
     if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
         # run everything through Gunicorn
         final_app = app
     else:
-        final_app = app # DebuggedApplication(app, evalex=True)
-        gunicorn_options['worker_class'] = 'sync'
+        final_app = app  # DebuggedApplication(app, evalex=True)
+        # gunicorn_options['worker_class'] = 'sync'
         gunicorn_options['max_requests'] = 0
 
-    # run_simple('0.0.0.0', 6789, final_app, use_reloader=False)
+    # run_simple('0.0.0.0', 6789, final_app, use_reloader=True)
 
     gunicorn_app = GunicornApplication(final_app, gunicorn_options)
     gunicorn_app.run()
