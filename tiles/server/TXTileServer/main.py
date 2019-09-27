@@ -71,7 +71,7 @@ class GunicornApplication(BaseApplication, ABC):
 def get_gunicorn_config():
     options = {
         'bind': 'localhost:6789',
-        'workers': 4,
+        'workers': 2,
         'worker_class': 'gevent',
         'max_requests': 1000
     }

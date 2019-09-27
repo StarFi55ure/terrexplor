@@ -2,7 +2,7 @@ cache
 build
 dist
 *.egg-info
-
+*.swp
 build-deps
 pyenv
 .idea/workspace.xml

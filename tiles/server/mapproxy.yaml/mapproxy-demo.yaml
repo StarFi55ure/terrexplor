@@ -61,7 +61,7 @@ sources:
       layers: osm
   maintheme:
     type: mapnik
-    mapfile: ../themes/terrexplor-main/project.xml
+    mapfile: ../themes/maintheme/project.xml
 
 grids:
     webmercator:
