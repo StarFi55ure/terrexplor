@@ -1,4 +1,4 @@
-from celeryapp import capp as app
+from TXTileServer.api.celeryapp import capp as app
 
 
 @app.task

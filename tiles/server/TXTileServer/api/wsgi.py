@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api
 
-from UPTileServer.api.tasks import raster_process_hillshade
+from TXTileServer.api.tasks import raster_process_hillshade
 
 app = Flask(__name__)
 api = Api(app)

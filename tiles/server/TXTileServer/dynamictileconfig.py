@@ -1,6 +1,6 @@
 import os
 
-from UPTileServer.config.configservice import ConfigService
+from TXTileServer.config.configservice import ConfigService
 
 
 class DynamicLayerConfig(dict):

@@ -1,8 +1,7 @@
 import os
 import json
+from abc import ABC
 
-import TileStache
-from TileStache.Config import buildConfiguration
 from flask import Flask
 from gunicorn.app.base import BaseApplication
 from gunicorn.six import iteritems
@@ -12,8 +11,8 @@ from werkzeug.serving import run_simple
 
 from mapproxy.wsgiapp import make_wsgi_app
 
-from UPTileServer.api.wsgi import build_wsgi_application
-from UPTileServer.dynamictileconfig import DynamicTileConfig
+from TXTileServer.api.wsgi import build_wsgi_application
+from TXTileServer.dynamictileconfig import DynamicTileConfig
 
 default_app = Flask(__name__)
 
@@ -48,7 +47,7 @@ class CORSMiddleware(object):
         return self.app(environ, add_cors_headers)
 
 
-class GunicornApplication(BaseApplication):
+class GunicornApplication(BaseApplication, ABC):
     """
     This class represents the Gunicorn wsgi application
     """
@@ -68,15 +67,6 @@ class GunicornApplication(BaseApplication):
         return self.application
 
 
-def get_tilestache_config():
-    if os.path.exists('tilestache.cfg'):
-        with open('tilestache.cfg', 'r') as f:
-            config_data = json.load(f)
-        return config_data
-
-    raise Exception("No configuration file set")
-
-
 def get_gunicorn_config():
     options = {
         'bind': 'localhost:6789',
@@ -89,14 +79,10 @@ def get_gunicorn_config():
 
 
 def main():
-    print('Starting UPlanet tile server.')
-    # setup tilestache for serving tiles
+    print('Starting TerreXplor Tile Server.')
 
-    tilestache_config_json = get_tilestache_config()
-    static_tilestache_config = buildConfiguration(tilestache_config_json)
-    tilestache_config = DynamicTileConfig(static_tilestache_config)
-    tile_app = TileStache.WSGITileServer(tilestache_config)
-    #tile_app = make_wsgi_app('mapproxy.yaml/mapproxy.yaml')
+    # setup mapproxy for serving tiles
+    tile_app = make_wsgi_app('mapproxy.yaml/mapproxy.yaml')
 
     # setup api app for ingesting data
     api_app = build_wsgi_application()
@@ -116,7 +102,7 @@ def main():
         'http://urbanplanet.dyndns.org'
     ])
 
-    if 'UP_RUN_MODE' in os.environ and os.environ['UP_RUN_MODE'] == 'production':
+    if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
         # run everything through Gunicorn
         gunicorn_options = get_gunicorn_config()
         gunicorn_app = GunicornApplication(app, gunicorn_options)

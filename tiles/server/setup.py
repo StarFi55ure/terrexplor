@@ -19,7 +19,8 @@ setup(
         'numpy',
         'arrow',
         'requests',
-        'mapproxy'
+        'mapproxy',
+        'celery'
     ],
 
     entry_points={
