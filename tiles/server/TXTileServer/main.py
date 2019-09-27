@@ -1,11 +1,11 @@
 import os
-import json
 from abc import ABC
 
 from flask import Flask
 from gunicorn.app.base import BaseApplication
 from gunicorn.six import iteritems
 from werkzeug.datastructures import Headers
+from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.serving import run_simple
 
@@ -15,6 +15,7 @@ from TXTileServer.api.wsgi import build_wsgi_application
 from TXTileServer.dynamictileconfig import DynamicTileConfig
 
 default_app = Flask(__name__)
+default_app.debug = True
 
 @default_app.route('/')
 def index():
@@ -102,13 +103,20 @@ def main():
         'http://urbanplanet.dyndns.org'
     ])
 
+    gunicorn_options = get_gunicorn_config()
+
     if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
         # run everything through Gunicorn
-        gunicorn_options = get_gunicorn_config()
-        gunicorn_app = GunicornApplication(app, gunicorn_options)
-        gunicorn_app.run()
+        final_app = app
     else:
-        run_simple('0.0.0.0', 6789, app, use_reloader=True)
+        final_app = app # DebuggedApplication(app, evalex=True)
+        gunicorn_options['worker_class'] = 'sync'
+        gunicorn_options['max_requests'] = 0
+
+    # run_simple('0.0.0.0', 6789, final_app, use_reloader=False)
+
+    gunicorn_app = GunicornApplication(final_app, gunicorn_options)
+    gunicorn_app.run()
 
 
 if __name__ == '__main__':

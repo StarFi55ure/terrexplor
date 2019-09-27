@@ -28,5 +28,6 @@ def build_wsgi_application():
 
     :return:
     '''
+    app.debug = True
 
     return app
