@@ -1,9 +1,13 @@
 import os
 from abc import ABC
+import yaml
+import copy
+import tempfile
 
 from flask import Flask
 from gunicorn.app.base import BaseApplication
 from gunicorn.six import iteritems
+from pkg_resources import resource_filename, resource_string
 from werkzeug.datastructures import Headers
 from werkzeug.debug import DebuggedApplication
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
@@ -71,19 +75,42 @@ class GunicornApplication(BaseApplication, ABC):
 def get_gunicorn_config():
     options = {
         'bind': 'localhost:6789',
-        'workers': 8,
-        'worker_class': 'sync',
-        'max_requests': 1000
+        'workers': 4,
+        'worker_class': 'gevent',
+        'max_requests': 100
     }
 
     return options
+
+def get_mapproxy_configfile():
+
+    base_mapproxy_yaml = resource_string('TXTileServer.config.mapproxy', 'mapproxy.yaml')
+
+    data = yaml.load(base_mapproxy_yaml)
+    new_data = copy.deepcopy(data)
+
+    for key in data['sources']:
+        s = data['sources'][key]
+        if s['type'] == 'mapnik':
+            theme_name = s['mapfile']
+            theme_path = resource_filename('TXTileServer', 'themes')
+            final_theme_file = os.path.join(theme_path, theme_name)
+            ns = new_data['sources'][key]
+            ns['mapfile'] = final_theme_file
+
+    _, tfile = tempfile.mkstemp()
+    with open(tfile, 'w') as f:
+        f.write(yaml.dump(new_data))
+
+    return tfile
 
 
 def main():
     print('Starting TerreXplor Tile Server.')
 
     # setup mapproxy for serving tiles
-    tile_app = make_wsgi_app('mapproxy.yaml/mapproxy.yaml')
+    mapproxy_config_file = get_mapproxy_configfile()
+    tile_app = make_wsgi_app(mapproxy_config_file)
 
     # setup api app for ingesting data
     api_app = build_wsgi_application()
@@ -111,6 +138,8 @@ def main():
 
     gunicorn_app = GunicornApplication(final_app, gunicorn_options)
     gunicorn_app.run()
+
+    os.unlink(tfile)
 
 
 if __name__ == '__main__':

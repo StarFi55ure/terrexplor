@@ -80,7 +80,7 @@ if __name__ == '__main__':
             ]
         },
 
-        cmsclass={
+        cmdclass={
             'sdist_debify': DebifyCommand
         }
 

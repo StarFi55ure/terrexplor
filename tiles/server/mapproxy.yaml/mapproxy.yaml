@@ -40,7 +40,7 @@ caches:
 sources:
   maintheme:
     type: mapnik
-    mapfile: ../themes/terrexplor-main/project.xml
+    mapfile: terrexplor-main/project.xml
 grids:
     geodetic:
         base: GLOBAL_WEBMERCATOR
