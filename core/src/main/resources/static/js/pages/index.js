@@ -28,7 +28,7 @@ $(document).ready(function () {
                 //var OSMTileServer = tileUrl + '/' + tileTheme + '/{z}/{x}/{y}/tile.png'
                 // var OSMTileServer = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-                var OSMTileServer = "http://localhost:6789/tiles/tms/1.0.0/maintheme/webmercator/{z}/{x}/{-y}.png";
+                var OSMTileServer = "http://localhost:6789/tiles/tiles/1.0.0/maintheme/geodetic/{z}/{x}/{y}.png";
 
                 // setup base layer
                 var tileLayer = new ol.layer.Tile({
@@ -37,32 +37,6 @@ $(document).ready(function () {
                         attributions: [
                             ol.source.OSM.ATTRIBUTION
                         ],
-                        extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
-                        tileGrid: new ol.tilegrid.TileGrid({
-                            extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244],
-                            origin: [-20037508.342789244, -20037508.342789244],
-                            resolutions: [
-                                78271.51696402048,
-                            	39135.75848201024,
-                            	19567.87924100512,
-                            	9783.93962050256,
-                            	4891.96981025128,
-                            	2445.98490512564,
-                            	1222.99245256282,
-                            	611.49622628141,
-                            	305.748113140705,
-                            	152.8740565703525,
-                            	76.43702828517625,
-                            	38.21851414258813,
-                            	19.109257071294063,
-                            	9.554628535647032,
-                            	4.777314267823516,
-                            	2.388657133911758,
-                            	1.194328566955879,
-                            	0.5971642834779395,
-                            	0.29858214173896974
-                            ]
-                        }),
                         url: OSMTileServer
                     })
                 });
@@ -178,10 +152,6 @@ $(document).ready(function () {
                 // setup main map widget
                 MainMap = new ol.Map({
                     target: 'mainmap',
-                    // maxResolution: 78271.51696402048,
-                    // units: 'm',
-                    // maxExtent: [-20037508.342789244, -20037508.342789244,
-                    //     20037508.342789244, 20037508.342789244],
                     loadTilesWhileAnimating: false,
                     loadTilesWhileInteracting: false,
                     layers: [
@@ -196,8 +166,8 @@ $(document).ready(function () {
                     view: new ol.View({
                         maxZoom: 18,
                         center: ol.proj.transform([18.417, -33.928], 'EPSG:4326', 'EPSG:3857'),
-                        zoom: 4
-                        //projection: 'EPSG:3857'
+                        zoom: 11,
+                        projection: 'EPSG:3857'
                     })
                 });
 

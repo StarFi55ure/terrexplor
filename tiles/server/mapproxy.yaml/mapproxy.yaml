@@ -27,7 +27,7 @@ services:
   tms:
     use_grid_names: true
     # origin for /tiles service
-    origin: 'sw'
+    origin: 'nw'
 layers:
   - name: maintheme
     title: Maintheme custom map
@@ -35,14 +35,14 @@ layers:
 
 caches:
   maintheme_cache:
-    grids: [webmercator]
+    grids: [geodetic]
     sources: [maintheme]
 sources:
   maintheme:
     type: mapnik
     mapfile: ../themes/terrexplor-main/project.xml
 grids:
-    webmercator:
+    geodetic:
         base: GLOBAL_WEBMERCATOR
 
 globals:

@@ -34,7 +34,6 @@ class CORSMiddleware(object):
             headers = Headers(headers)
 
             # for origin in self.origins:
-            print('adding header')
             headers.set("Access-Control-Allow-Origin", "*")
             # headers.add("Access-Control-Allow-Headers", "Origin, ...")
             # headers.add("Access-Control-Allow-Credentials", "true")
