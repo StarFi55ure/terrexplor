@@ -1,32 +1,87 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
 
-setup(
-    name='TXTileServer',
-    author='Julian Kennedy',
-    author_email='juliankenn@gmail.com',
+from TXTileServer.config import SOFTWARE_VERSION
 
-    version='0.0.1',
+PACKAGE_NAME = 'terrexplor-tile-server'
 
-    packages=find_packages(),
-    install_requires=[
-        'flask',
-        'flask_restful',
-        'gunicorn',
-        'gevent',
-        'watchdog',
-        'sh',
-        'ipython',
-        'numpy',
-        'arrow',
-        'requests',
-        'mapproxy',
-        'celery'
-    ],
+all_packages = find_packages()
+final_package_data = {}
+final_package_dir = {}
+final_data_files = []
 
-    entry_points={
-        'console_scripts': [
-            'runserver = TXTileServer.main:main'
+
+class DebifyCommand(Command):
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        pass
+
+
+def bundle_mapproxy_configs():
+    global final_package_data
+
+    final_package_data.update({
+        'TXTileServer.config.mapproxy': [
+            '*.yaml'
         ]
-    }
+    })
 
-)
+
+def bundle_themes():
+    global final_package_data
+
+    final_package_data.update({
+        'TXTileServer.themes': [
+            'terrexplor-main/*',
+            'terrexplor-main/fonts/*',
+            'terrexplor-main/img/*',
+            'terrexplor-main/res/*'
+        ]
+    })
+
+
+if __name__ == '__main__':
+    bundle_mapproxy_configs()
+    bundle_themes()
+
+    setup(
+        name=PACKAGE_NAME,
+        author='Julian Kennedy',
+        author_email='juliankenn@gmail.com',
+
+        version=SOFTWARE_VERSION,
+
+        package_data=final_package_data,
+        package_dir=final_package_dir,
+
+        packages=all_packages,
+
+        install_requires=[
+            'flask',
+            'flask_restful',
+            'gunicorn',
+            'gevent',
+            'sh',
+            'ipython',
+            'arrow',
+            'requests',
+            'mapproxy',
+        ],
+
+        entry_points={
+            'console_scripts': [
+                'tx-tile-server = TXTileServer.main:main'
+            ]
+        },
+
+        cmsclass={
+            'sdist_debify': DebifyCommand
+        }
+
+    )
