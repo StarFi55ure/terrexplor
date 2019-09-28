@@ -44,5 +44,6 @@ sources:
 grids:
     geodetic:
         base: GLOBAL_WEBMERCATOR
+        tile_size: [256, 256]
 
 globals:

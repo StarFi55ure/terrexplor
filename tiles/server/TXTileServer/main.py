@@ -71,8 +71,8 @@ class GunicornApplication(BaseApplication, ABC):
 def get_gunicorn_config():
     options = {
         'bind': 'localhost:6789',
-        'workers': 2,
-        'worker_class': 'gevent',
+        'workers': 8,
+        'worker_class': 'sync',
         'max_requests': 1000
     }
 
@@ -102,16 +102,12 @@ def main():
 
     gunicorn_options = get_gunicorn_config()
 
-    print(app)
     if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
         # run everything through Gunicorn
         final_app = app
     else:
-        final_app = app  # DebuggedApplication(app, evalex=True)
-        # gunicorn_options['worker_class'] = 'sync'
+        final_app = app
         gunicorn_options['max_requests'] = 0
-
-    # run_simple('0.0.0.0', 6789, final_app, use_reloader=True)
 
     gunicorn_app = GunicornApplication(final_app, gunicorn_options)
     gunicorn_app.run()
