@@ -1,8 +1,10 @@
+import json
 import os
 from abc import ABC
 import yaml
 import copy
 import tempfile
+from lxml import etree
 
 from flask import Flask
 from gunicorn.app.base import BaseApplication
@@ -20,6 +22,7 @@ from TXTileServer.dynamictileconfig import DynamicTileConfig
 
 default_app = Flask(__name__)
 default_app.debug = True
+
 
 @default_app.route('/')
 def index():
@@ -82,34 +85,71 @@ def get_gunicorn_config():
 
     return options
 
-def get_mapproxy_configfile():
 
+def switch_theme_datasources(theme_file):
+    if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
+        DBNAME = 'terrexplor'
+        DBUSER = 'terrexplor'
+        DBPASSWORD = 'hmlDmfYzg0B2LYbgHFUj5z3MtO8='
+        DBHOST = '172.20.1.30'
+    else:
+        DBNAME = 'terrexplor'
+        DBUSER = 'terrexplor'
+        DBPASSWORD = 'terrexplor'
+        DBHOST = 'localhost'
+
+    print(theme_file)
+    with open(theme_file, 'r') as f:
+        xml_data = etree.parse(f)
+
+    datasources = xml_data.xpath('/Map/Layer/Datasource')
+    print(len(datasources))
+
+    for datasource in datasources:
+        datasource.xpath("Parameter[@name='dbname']")[0].text = etree.CDATA(DBNAME)
+        datasource.xpath("Parameter[@name='user']")[0].text = etree.CDATA(DBUSER)
+        datasource.xpath("Parameter[@name='password']")[0].text = etree.CDATA(DBPASSWORD)
+        datasource.xpath("Parameter[@name='host']")[0].text = etree.CDATA(DBHOST)
+
+    _, tfile = tempfile.mkstemp()
+    print('Created temp theme file {}'.format(tfile))
+    with open(tfile, 'wb') as f:
+        f.write(etree.tostring(xml_data, pretty_print=4))
+
+    return tfile
+
+
+def get_mapproxy_configfile():
     base_mapproxy_yaml = resource_string('TXTileServer.config.mapproxy', 'mapproxy.yaml')
 
     data = yaml.load(base_mapproxy_yaml)
     new_data = copy.deepcopy(data)
 
+    temp_theme_files = []
     for key in data['sources']:
         s = data['sources'][key]
         if s['type'] == 'mapnik':
             theme_name = s['mapfile']
             theme_path = resource_filename('TXTileServer', 'themes')
-            final_theme_file = os.path.join(theme_path, theme_name)
+            final_theme_file = switch_theme_datasources(os.path.join(theme_path, theme_name))
+            temp_theme_files.append(final_theme_file)
             ns = new_data['sources'][key]
             ns['mapfile'] = final_theme_file
 
-    _, tfile = tempfile.mkstemp()
-    with open(tfile, 'w') as f:
+    _, pfile = tempfile.mkstemp()
+    with open(pfile, 'w') as f:
         f.write(yaml.dump(new_data))
 
-    return tfile
+    return pfile, temp_theme_files
 
 
 def main():
     print('Starting TerreXplor Tile Server.')
 
     # setup mapproxy for serving tiles
-    mapproxy_config_file = get_mapproxy_configfile()
+    mapproxy_config_file, temp_theme_files = get_mapproxy_configfile()
+
+    print("Mapproxy file {}".format(mapproxy_config_file))
     tile_app = make_wsgi_app(mapproxy_config_file)
 
     # setup api app for ingesting data
@@ -139,7 +179,9 @@ def main():
     gunicorn_app = GunicornApplication(final_app, gunicorn_options)
     gunicorn_app.run()
 
-    os.unlink(tfile)
+    os.unlink(mapproxy_config_file)
+    for f in temp_theme_files:
+        os.unlink(f)
 
 
 if __name__ == '__main__':
