@@ -1,3 +1,7 @@
+import os
+import shutil
+import tarfile
+
 from setuptools import setup, find_packages, Command
 
 from TXTileServer.config import SOFTWARE_VERSION
@@ -11,6 +15,7 @@ final_data_files = []
 
 
 class DebifyCommand(Command):
+
     user_options = []
 
     def initialize_options(self):
@@ -20,6 +25,23 @@ class DebifyCommand(Command):
         pass
 
     def run(self):
+        zipbasename = '{}-{}'.format(PACKAGE_NAME, SOFTWARE_VERSION)
+        zipname = os.path.join('dist', zipbasename + '.tar.gz')
+
+        debzipname = os.path.join('dist', zipbasename + '.orig.tar.gz')
+
+        with tarfile.open(zipname, 'r|gz') as tar:
+            tar.extractall('dist')
+
+        shutil.copytree('debian', os.path.join('dist', zipbasename, 'debian'))
+        # shutil.copyfile(zipname, debzipname)
+        # with ZipFile(debzipname, 'w') as debzip:
+        #     debzip.write('debian')
+
+        with tarfile.open(debzipname, 'w|gz') as debtar:
+            debtar.add(os.path.join('dist', zipbasename), zipbasename)
+
+        shutil.rmtree((os.path.join('dist', zipbasename)))
         pass
 
 
@@ -69,7 +91,6 @@ if __name__ == '__main__':
             'gevent',
             'sh',
             'ipython',
-            'arrow',
             'requests',
             'mapproxy',
         ],

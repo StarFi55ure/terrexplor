@@ -2,10 +2,10 @@ Source: terrexplor-tile-server
 Section: python
 Priority: optional
 Maintainer: Julian Kennedy <juliankenn@gmail.com>
-Build-Depends: debhelper (>= 10), dh-python, python-all, python-setuptools, python3-all, python3-setuptools
+Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-dev, python3-all-dev, python3-setuptools
 Standards-Version: 4.1.2
 Homepage: http://www.terrexplor.io
-X-Python-Version: >= 2.6
+#X-Python-Version: >= 2.6
 X-Python3-Version: >= 3.6
 #Vcs-Git: https://anonscm.debian.org/git/python-modules/packages/terrexplor-tile-server.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/python-modules/packages/terrexplor-tile-server.git/
@@ -14,8 +14,9 @@ X-Python3-Version: >= 3.6
 
 Package: terrexplor-tile-server
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}
-Suggests: python-terrexplor-tile-server-doc
+Depends: ${python3:Depends}, ${misc:Depends}, python3-flask, python3-flask-restful, gunicorn3, python3-gevent,
+    python3-sh, python3-mapproxy, python3-requests
+#Suggests: python-terrexplor-tile-server-doc
 Description: Terrexplor Tile Server
- This package installs the library for Python 3.
+ Terrexplor Tile Server
 
