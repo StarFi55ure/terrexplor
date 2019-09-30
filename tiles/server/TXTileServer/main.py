@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 from abc import ABC
 import yaml
 import copy
@@ -23,6 +24,7 @@ from TXTileServer.dynamictileconfig import DynamicTileConfig
 default_app = Flask(__name__)
 default_app.debug = True
 
+exit_data = None
 
 @default_app.route('/')
 def index():
@@ -80,13 +82,16 @@ def get_gunicorn_config():
         'bind': 'localhost:6789',
         'workers': 4,
         'worker_class': 'gevent',
-        'max_requests': 100
+        'max_requests': 100,
+
+        'on_exit': on_exit
     }
 
     return options
 
 
-def switch_theme_datasources(theme_file):
+def build_runtime_theme(theme_file):
+    print("Orig theme: {}".format(theme_file))
     if 'TX_RUN_MODE' in os.environ and os.environ['TX_RUN_MODE'] == 'prod':
         DBNAME = 'terrexplor'
         DBUSER = 'terrexplor'
@@ -98,8 +103,16 @@ def switch_theme_datasources(theme_file):
         DBPASSWORD = 'terrexplor'
         DBHOST = 'localhost'
 
-    print(theme_file)
-    with open(theme_file, 'r') as f:
+    # copy theme to temporary directory
+    tdir = tempfile.mkdtemp()
+    rundir = os.path.join(tdir, 'theme')
+    print("Using theme dir: {}".format(rundir))
+    theme_orig_dir, theme_orig_file = os.path.split(theme_file)
+    shutil.copytree(theme_orig_dir, rundir)
+
+    # update datasources
+    print("Runtim XML file: {}".format(os.path.join(rundir, theme_orig_file)))
+    with open(os.path.join(rundir, theme_orig_file), 'r') as f:
         xml_data = etree.parse(f)
 
     datasources = xml_data.xpath('/Map/Layer/Datasource')
@@ -111,12 +124,13 @@ def switch_theme_datasources(theme_file):
         datasource.xpath("Parameter[@name='password']")[0].text = etree.CDATA(DBPASSWORD)
         datasource.xpath("Parameter[@name='host']")[0].text = etree.CDATA(DBHOST)
 
-    _, tfile = tempfile.mkstemp()
+    # create runtime theme file
+    _, tfile = tempfile.mkstemp(dir=rundir)
     print('Created temp theme file {}'.format(tfile))
     with open(tfile, 'wb') as f:
         f.write(etree.tostring(xml_data, pretty_print=4))
 
-    return tfile
+    return tdir, tfile
 
 
 def get_mapproxy_configfile():
@@ -131,8 +145,11 @@ def get_mapproxy_configfile():
         if s['type'] == 'mapnik':
             theme_name = s['mapfile']
             theme_path = resource_filename('TXTileServer', 'themes')
-            final_theme_file = switch_theme_datasources(os.path.join(theme_path, theme_name))
-            temp_theme_files.append(final_theme_file)
+            final_runtime_dir, final_theme_file = build_runtime_theme(os.path.join(theme_path, theme_name))
+            temp_theme_files.append({
+                'dir': final_runtime_dir,
+                'tfile': final_theme_file
+            })
             ns = new_data['sources'][key]
             ns['mapfile'] = final_theme_file
 
@@ -143,7 +160,20 @@ def get_mapproxy_configfile():
     return pfile, temp_theme_files
 
 
+def on_exit(server):
+    print("Cleanup before exiting")
+    if exit_data:
+        print("Unlinking mapproxy")
+        os.unlink(exit_data['mapproxy_config'])
+        for f in exit_data['tempdirs']:
+            # TODO: must delete directory as well
+            print("rm tree {}".format(f['dir']))
+            shutil.rmtree(f['dir'])
+
+
 def main():
+    global exit_data
+
     print('Starting TerreXplor Tile Server.')
 
     # setup mapproxy for serving tiles
@@ -176,12 +206,14 @@ def main():
         final_app = app
         gunicorn_options['max_requests'] = 0
 
+    # save this for exit function later on
+    exit_data = {
+        'mapproxy_config': mapproxy_config_file,
+        'tempdirs': temp_theme_files
+    }
+
     gunicorn_app = GunicornApplication(final_app, gunicorn_options)
     gunicorn_app.run()
-
-    os.unlink(mapproxy_config_file)
-    for f in temp_theme_files:
-        os.unlink(f)
 
 
 if __name__ == '__main__':
