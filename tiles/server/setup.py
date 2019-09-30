@@ -4,7 +4,7 @@ import tarfile
 
 from setuptools import setup, find_packages, Command
 
-from TXTileServer.config import SOFTWARE_VERSION
+from TXTileServer.config.vars import SOFTWARE_VERSION
 
 PACKAGE_NAME = 'terrexplor-tile-server'
 
@@ -62,6 +62,7 @@ def bundle_themes():
         'TXTileServer.themes': [
             'terrexplor-main/*',
             'terrexplor-main/fonts/*',
+            'terrexplor-main/img/icon/*',
             'terrexplor-main/img/*',
             'terrexplor-main/res/*'
         ]

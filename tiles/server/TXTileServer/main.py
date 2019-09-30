@@ -79,7 +79,7 @@ class GunicornApplication(BaseApplication, ABC):
 
 def get_gunicorn_config():
     options = {
-        'bind': 'localhost:6789',
+        'bind': '172.20.1.40:6789',
         'workers': 4,
         'worker_class': 'gevent',
         'max_requests': 100,
@@ -204,6 +204,7 @@ def main():
         final_app = app
     else:
         final_app = app
+        gunicorn_options['bind'] = 'localhost:6789'
         gunicorn_options['max_requests'] = 0
 
     # save this for exit function later on

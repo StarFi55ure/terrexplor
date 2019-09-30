@@ -15,7 +15,7 @@ X-Python3-Version: >= 3.6
 Package: terrexplor-tile-server
 Architecture: all
 Depends: ${python3:Depends}, ${misc:Depends}, python3-flask, python3-flask-restful, gunicorn3, python3-gevent,
-    python3-sh, python3-mapproxy, python3-requests, python3-lxml
+    python3-sh, python3-mapproxy, python3-mapnik, python3-requests, python3-lxml
 #Suggests: python-terrexplor-tile-server-doc
 Description: Terrexplor Tile Server
  Terrexplor Tile Server
