@@ -77,6 +77,8 @@ if __name__ == '__main__':
         author='Julian Kennedy',
         author_email='juliankenn@gmail.com',
 
+        include_package_data=True,
+
         version=SOFTWARE_VERSION,
 
         package_data=final_package_data,
@@ -85,7 +87,7 @@ if __name__ == '__main__':
         packages=all_packages,
 
         install_requires=[
-            'flask',
+            'flask==1.0.2',
             'flask_restful',
             'gunicorn',
             'gevent',
@@ -93,6 +95,7 @@ if __name__ == '__main__':
             'ipython',
             'requests',
             'mapproxy',
+            'werkzeug==0.14.1'
         ],
 
         entry_points={

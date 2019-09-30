@@ -13,7 +13,7 @@ from gunicorn.six import iteritems
 from pkg_resources import resource_filename, resource_string
 from werkzeug.datastructures import Headers
 from werkzeug.debug import DebuggedApplication
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.wsgi import DispatcherMiddleware
 from werkzeug.serving import run_simple
 
 from mapproxy.wsgiapp import make_wsgi_app
