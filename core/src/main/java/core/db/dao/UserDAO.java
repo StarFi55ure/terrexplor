@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-//@Component
+@Component
 public class UserDAO implements IBaseDAO<UserPrincipal>, UserDetailsService {
     
     @Override
@@ -18,12 +18,12 @@ public class UserDAO implements IBaseDAO<UserPrincipal>, UserDetailsService {
         return null;
     }
     
-    public Optional<UserPrincipal> get(String username) {
+    @Override
+    public List<UserPrincipal> getAll() {
         return null;
     }
     
-    @Override
-    public List<UserPrincipal> getAll() {
+    public Optional<UserPrincipal> findByUsername(String username) {
         return null;
     }
     
@@ -43,7 +43,7 @@ public class UserDAO implements IBaseDAO<UserPrincipal>, UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        var userOpt = get(userName);
+        var userOpt = findByUsername(userName);
     
         if (userOpt.isPresent()) {
             return new UserDetailsSupport(userOpt.get());

@@ -3,12 +3,8 @@ package core.services;
 import core.db.dao.UserAuthorizationDAO;
 import core.db.dao.UserDAO;
 import core.db.entities.UserPrincipal;
-import core.db.repositories.UserPrincipalRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -21,26 +17,24 @@ public class AuthService {
     private UserDAO userDAO;
     
     @Autowired
-    private UserPrincipalRepository userPrincipalRepository;
-    
-    @Autowired
     private UserAuthorizationDAO authorizationDAO;
     
     public Optional<String> login(String username, String password) {
-        var userPrincipalOpt = userPrincipalRepository.findByUsername(username);
-        System.out.println(userPrincipalOpt);
-        
-        if (userPrincipalOpt.isPresent()) {
-            var userPrincipal = userPrincipalOpt.get();
-    
-            if (isUserPrincipalPasswordValid(userPrincipal, password)) {
-                return Optional.empty();
-            } else {
-                throw new BadCredentialsException("");
-            }
-        } else {
-            throw new UsernameNotFoundException("");
-        }
+//        var userPrincipalOpt = userPrincipalRepository.findByUsername(username);
+//        System.out.println(userPrincipalOpt);
+//
+//        if (userPrincipalOpt.isPresent()) {
+//            var userPrincipal = userPrincipalOpt.get();
+//
+//            if (isUserPrincipalPasswordValid(userPrincipal, password)) {
+//                return Optional.empty();
+//            } else {
+//                throw new BadCredentialsException("");
+//            }
+//        } else {
+//            throw new UsernameNotFoundException("");
+//        }
+        return Optional.empty();
     
     }
     

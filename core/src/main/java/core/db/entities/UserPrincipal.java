@@ -3,12 +3,9 @@ package core.db.entities;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
 public class UserPrincipal extends BaseEntity implements UserDetails {
     
     private String username;
@@ -69,7 +66,6 @@ public class UserPrincipal extends BaseEntity implements UserDetails {
     
     private String password;
     
-    @Transient
     private List<GrantedAuthority> authorities;
     
     @Override

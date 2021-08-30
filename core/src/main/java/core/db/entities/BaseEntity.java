@@ -1,36 +1,15 @@
 package core.db.entities;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
     
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    @ColumnDefault("uuid_generate_v4()")
     protected UUID id;
-    
-    @Column(updatable = false, nullable = false)
-    @ColumnDefault("now()")
-    protected OffsetDateTime datecreated;
-    
-    @Column(nullable = false)
-    @ColumnDefault("true")
+    protected OffsetDateTime created;
+    protected OffsetDateTime modified;
     protected Boolean active;
     
     public UUID getId() {
@@ -41,12 +20,24 @@ public class BaseEntity {
         this.id = id;
     }
     
-    public OffsetDateTime getDatecreated() {
-        return datecreated;
+    public OffsetDateTime getCreated() {
+        return created;
     }
     
-    public ZonedDateTime getZonedDatecreated() {
-        return datecreated.atZoneSameInstant(ZoneId.systemDefault());
+    public void setCreated(OffsetDateTime created) {
+        this.created = created;
+    }
+    
+    public OffsetDateTime getModified() {
+        return modified;
+    }
+    
+    public void setModified(OffsetDateTime modified) {
+        this.modified = modified;
+    }
+    
+    public ZonedDateTime getZonedCreated() {
+        return created.atZoneSameInstant(ZoneId.systemDefault());
     }
     
     public Boolean getActive() {
