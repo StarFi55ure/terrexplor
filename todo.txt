@@ -1,0 +1,16 @@
+apps:
+=====
+
+- get main app running
+- get tile server running
+- get tile server to render map data in main app
+    - use bing maps for tile style inspiration
+- try recreate mapnik renderer in java or c++ and link to java
+    - try make into library that anyone can use
+- more ideas to go here...
+
+
+infrastructure:
+===============
+
+- 
