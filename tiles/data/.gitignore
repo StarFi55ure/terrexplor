@@ -1,0 +1,12 @@
+cache
+build
+dist
+*.egg-info
+
+build-deps
+pyenv
+.idea/workspace.xml
+.idea
+mapproxy.yaml/cache_data
+raster
+mdenoise
