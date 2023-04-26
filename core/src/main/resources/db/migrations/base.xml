@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+    <changeSet author="julian" id="1617406822050-1">
+        <createTable tableName="userprincipal">
+            <column defaultValueComputed="uuid_generate_v4()" name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="userprincipalPK"/>
+            </column>
+            <column defaultValueBoolean="true" name="active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="datecreated" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="text"/>
+            <column name="firstname" type="text"/>
+            <column name="lastname" type="text"/>
+            <column name="password" type="text"/>
+            <column name="salt" type="text"/>
+            <column name="username" type="text"/>
+        </createTable>
+
+        <sql>
+            insert into userprincipal(email,firstname,lastname,password,salt,username) values(
+                'admin@example.com',
+                'Admin',
+                'User',
+                '73998a51b68844366f509dbe422e1061558ea7c70793a8cd4d9b88f92e4eacbc',
+                'c076e35bb45218f460a19d140023237184e2ab693c3ef9cced3582d69792a3d7',
+                'admin'
+            )
+        </sql>
+    </changeSet>
+</databaseChangeLog>
