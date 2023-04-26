@@ -1,2 +1,0 @@
-PG: host='urbanplanet.dyndns.org' port='5432' dbname='gis' user='gis'
-password='gis' schema='public'  table='srtmglobal'

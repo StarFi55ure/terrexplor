@@ -1,5 +1,0 @@
-#!/bin/bash
-
-POSTPSQL="sudo -u postgres psql"
-
-
